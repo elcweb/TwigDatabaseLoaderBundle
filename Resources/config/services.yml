@@ -1,0 +1,17 @@
+services:
+    twig.loader.database:
+        class: Elcweb\TwigDatabaseLoaderBundle\Twig\Loader\DatabaseTwigLoader
+        public: false
+        arguments:
+            - "@elcweb.twig.template.repository"
+        calls:
+            - [setLogger, ['@logger']]
+        tags:
+            - { name: twig.loader, priority: 100 }
+
+    elcweb.twig.template.repository:
+            class: Doctrine\ORM\EntityRepository
+            factory_service: doctrine.orm.default_entity_manager
+            factory_method: getRepository
+            arguments:
+                - Elcweb\TwigDatabaseLoaderBundle\Entity\Template
